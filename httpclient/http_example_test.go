@@ -1,9 +1,9 @@
 package httpclient_test
 
 import (
-	"book-lake/util/httpclient"
 	"encoding/json"
 	"fmt"
+	"gotools/httpclient"
 	"io/ioutil"
 	"log"
 	"net/http"

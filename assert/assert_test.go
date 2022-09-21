@@ -1,59 +1,39 @@
-package assert
+package assert_test
 
 import (
-	"errors"
-	"fmt"
-	"reflect"
+	"gotools/assert"
+	"gotools/tester"
 	"testing"
 )
 
 func TestRequire(t *testing.T) {
-	// 基本类型: int, uint, float, complex, string
-	bvals := []any{1, 1.0, 'a', "", "haha", errors.New("an error")}
-	for _, v := range bvals {
-		ref(v)
-	}
+	logger := tester.Wrap(t)
+	logger.Title("test assert.Require method")
 
-	// 引用类型：map, struct, chan, pointer, slice, array, interface
-	c := make(chan int)
-	type Interface interface {
-		Print()
-	}
-	var i *Interface // kind: invalid
-	var i1 *It
-	i1 = new(It) // kind: struct
-	rvals := []any{struct{}{}, map[string]any{}, []string{}, [2]int{1, 2}, c, &c, i, i1}
-	for _, v := range rvals {
-		ref(v)
-	}
-}
+	logger.Case("give a true condition, should not panic")
+	func() {
+		defer func() {
+			err := recover()
+			if err != nil {
+				logger.Fail("should not get an error: %v", err)
+			} else {
+				logger.Pass("should not get an error")
+			}
+		}()
+		assert.Require(true, "not match the condition")
+	}()
 
-type It struct {
-}
-
-func (it *It) Print() {}
-
-func ref(value any) {
-	reflectValue := reflect.Indirect(reflect.ValueOf(value))
-	// fmt.Printf("reflectValue: %v\n", reflectValue)
-	for reflectValue.Kind() == reflect.Ptr || reflectValue.Kind() == reflect.Interface {
-		reflectValue = reflect.Indirect(reflectValue)
-	}
-	fmt.Printf("reflectValue: %v\n", reflectValue)
-	fmt.Printf("reflectValue.Kind(): %v\n", reflectValue.Kind())
-
-	switch reflectValue.Kind() {
-	case reflect.Slice, reflect.Array:
-	case reflect.Struct:
-	case reflect.Interface:
-	case reflect.Map:
-	case reflect.Pointer:
-	case reflect.Chan:
-	case reflect.Bool:
-	case reflect.Int | reflect.Int8 | reflect.Int16 | reflect.Int32 | reflect.Int64:
-	// case reflect.Uint | reflect.Uint8 | reflect.Uint16 | reflect.Uint32 | reflect.Uint64:
-	case reflect.Float32 | reflect.Float64:
-	case reflect.Complex64 | reflect.Complex128:
-	default:
-	}
+	logger.Case("give a false condition, should panic and get an error")
+	func() {
+		msg := "not match the condition"
+		defer func() {
+			err := recover()
+			if err == nil {
+				logger.Fail("should get an error with message: " + msg)
+			} else {
+				logger.Pass("should get an error: %v", err)
+			}
+		}()
+		assert.Require(false, "not match the condition")
+	}()
 }

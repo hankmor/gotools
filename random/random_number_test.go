@@ -2,8 +2,8 @@ package random_test
 
 import (
 	"fmt"
-	"gotools/random"
-	"gotools/tester"
+	"github.com/huzhouv/gotools/random"
+	"github.com/huzhouv/gotools/tester"
 	"testing"
 )
 

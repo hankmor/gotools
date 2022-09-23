@@ -1,7 +1,7 @@
 package random
 
 import (
-	"gotools/tester"
+	"github.com/huzhouv/gotools/tester"
 	"math/rand"
 	"testing"
 	"time"

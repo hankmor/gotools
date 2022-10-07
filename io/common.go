@@ -11,3 +11,19 @@ func Exists(file string) bool {
 	}
 	return true
 }
+
+func IsDir(path string) bool {
+	fi, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return fi.IsDir()
+}
+
+func IsRegularFile(path string) bool {
+	fi, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return fi.Mode().IsRegular()
+}

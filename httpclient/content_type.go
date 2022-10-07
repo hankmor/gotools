@@ -1,5 +1,6 @@
 package httpclient
 
+// http 支持的 ContentType 类型定义
 const (
 	ContentTypeAll                        ContentType = "*/*"
 	ContentTypeApplicationAtomXml         ContentType = "application/atom+xml"

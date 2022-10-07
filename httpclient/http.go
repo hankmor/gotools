@@ -12,7 +12,7 @@ import (
 )
 
 var client = &http.Client{
-	Timeout: time.Second * 60,
+	Timeout: time.Second * 60, // 请求超时时间
 }
 
 type HttpError struct {
@@ -77,6 +77,7 @@ func (b *builder) Get() *builder {
 func (b *builder) Post() *builder {
 	b.method = http.MethodPost
 	resp, err := client.Post(b.url, string(b.contentType), b.body)
+	b.resp = resp
 	if err == nil && resp != nil && resp.StatusCode != http.StatusOK {
 		err = errors.New(resp.Status)
 	}
@@ -178,7 +179,7 @@ func GetJsonObject[T any](url string, errHandler ErrHandler, t T) T {
 
 // convenient POST methods
 
-func Post(url string, contentType string, body io.Reader) string {
+func Post(url string, contentType string, body io.Reader) []byte {
 	resp, err := client.Post(url, contentType, body)
 	if err != nil {
 		panic(fmt.Sprintf("request error: %v", err))
@@ -188,5 +189,5 @@ func Post(url string, contentType string, body io.Reader) string {
 	if err != nil {
 		panic(fmt.Sprintf("read response error: %v", err))
 	}
-	return string(b)
+	return b
 }

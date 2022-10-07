@@ -3,8 +3,8 @@ package httpclient_test
 import (
 	"encoding/json"
 	"fmt"
-	"gotools/httpclient"
-	"gotools/tester"
+	"github.com/huzhouv/gotools/httpclient"
+	"github.com/huzhouv/gotools/tester"
 	"io"
 	"io/ioutil"
 	"log"
@@ -277,3 +277,52 @@ func TestHttp_GetJsonObject(t *testing.T) {
 }
 
 // ========== POST method tests ==========
+
+func TestSimplePost(t *testing.T) {
+	startServer()
+
+	logger := tester.Wrap(t)
+	logger.Title("test basic post request")
+
+	// Post请求用于向服务器发送资源，这里的查询并不符合restful规范
+
+	logger.Case("simplest post html")
+	var s string
+	httpclient.NewBuilder("http://localhost:1234/html").Post().WhenSuccess(func(resp *http.Response) {
+		bytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			logger.Fail("should can read response data, but got error: %v", err)
+		} else {
+			logger.Pass("should has no error")
+		}
+		if bytes == nil {
+			logger.Fail("should has body but not found")
+		} else {
+			logger.Pass("should has body")
+		}
+		s = string(bytes)
+	}).WhenFailed(func(err *httpclient.HttpError) {
+		logger.Require(err == nil, "request should be successful")
+	}).End()
+	logger.Require(html == s, "post result with string should be correct")
+
+	logger.Case("simplest post json")
+	var js string
+	httpclient.NewBuilder("http://localhost:1234/json").Post().WhenSuccess(func(resp *http.Response) {
+		bytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			logger.Fail("should can read response data, but got error: %v", err)
+		} else {
+			logger.Pass("should has no error")
+		}
+		if bytes == nil {
+			logger.Fail("should has body but not found")
+		} else {
+			logger.Pass("should has body")
+		}
+		js = string(bytes)
+	}).WhenFailed(func(err *httpclient.HttpError) {
+		logger.Require(err == nil, "request should be successful")
+	}).End()
+	logger.Require(js == jsonstr, "post result with string should be correct")
+}

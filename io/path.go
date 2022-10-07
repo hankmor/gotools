@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// ExecPath 当前执行文件所在的目录
+// ExecPath reports the path of current executable file, please see os.Executable for more details .
 func ExecPath() string {
 	_path, err := os.Executable() // 获得程序路径
 	if err != nil {
@@ -19,24 +19,19 @@ func ExecPath() string {
 	return filepath.Dir(_path)
 }
 
-// CurrentPath 当前执行文件所在的目录
+// CurrentPath reports the path of current executable file, please see runtime.Caller for more details .
 func CurrentPath() string {
 	_, filename, _, _ := runtime.Caller(1)
 	return path.Dir(filename)
 }
 
+// PathExists reports whether the given path exists.
 func PathExists(path string) bool {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true
-	}
-	if os.IsNotExist(err) {
-		return false
-	}
-	return false
+	return Exists(path)
 }
 
-// ProjectPath 获取工程根目录，首先按照模块工程获取，即工程根目录为 go.mod 所在的目录，找不到 go.mod，则返回 ExecPath 的值
+// ProjectPath reports root path of current project. It will first execute 'go env GOMOD' command to
+// get full path of 'go.mod' file of current project, if it does not exist then the method will invoke ExecPath.
 func ProjectPath() string {
 	// default linux/mac os
 	var (
@@ -44,7 +39,7 @@ func ProjectPath() string {
 		ss []string
 	)
 
-	// GOMOD
+	// go env GOMOD
 	// in go source code:
 	// Check for use of modules by 'go env GOMOD',
 	// which reports a go.mod file path if modules are enabled.

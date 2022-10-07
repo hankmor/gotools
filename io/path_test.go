@@ -3,22 +3,22 @@ package io_test
 import (
 	"fmt"
 	"github.com/huzhouv/gotools/io"
+	"github.com/huzhouv/gotools/tester"
 	"os"
 	"path/filepath"
 	"testing"
 )
 
 func TestPathExists(t *testing.T) {
-	path := "/Users/sam/workspace/cmkj/go_web_project"
-	b := io.PathExists(path)
-	if !b {
-		t.Errorf("result incorrect")
-	}
+	lg := tester.Wrap(t)
+
+	lg.Case("give an exists path")
+	path := "/Users/sam/workspace/mine/gotools"
+	lg.Require(io.PathExists(path), "given path should exist")
+
+	lg.Case("give an none exists path")
 	path = "/Users/haha"
-	b = io.PathExists(path)
-	if b {
-		t.Errorf("result incorrect")
-	}
+	lg.Require(!io.PathExists(path), "given path should not exist")
 }
 
 func TestExecPath(t *testing.T) {
@@ -32,5 +32,7 @@ func TestExecPath(t *testing.T) {
 	s, _ := os.Getwd()
 	println(s)
 
+	println(io.ExecPath())
+	println(io.CurrentPath())
 	println(io.ProjectPath())
 }

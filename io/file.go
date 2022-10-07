@@ -2,13 +2,11 @@ package io
 
 import "os"
 
-func FileExist(file string) bool {
-	_, err := os.Stat(file)
-	if os.IsNotExist(err) {
-		return false
+func ExistsFile(file string) bool {
+	b := Exists(file)
+	if b {
+		f, _ := os.Stat(file)
+		return !f.IsDir()
 	}
-	if os.IsPermission(err) {
-		return false
-	}
-	return true
+	return b
 }

@@ -12,6 +12,10 @@ import (
 //
 // https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
 //
+var AES = &aeser{}
+
+type aeser struct {
+}
 
 const (
 	// ECB 加密模式：https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#ECB
@@ -23,7 +27,7 @@ const (
 
 type AesMode int
 
-func AESEncrypt(rawBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, error) {
+func (a *aeser) Encrypt(rawBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, error) {
 	switch mode {
 	case ECB:
 		return aesEncryptECB(rawBytes, key)
@@ -34,12 +38,12 @@ func AESEncrypt(rawBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, e
 	}
 }
 
-func AESDecrypt(cipherBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, error) {
+func (a *aeser) Decrypt(cipherBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, error) {
 	switch mode {
 	case ECB:
-		return AESDecryptToECB(cipherBytes, key)
+		return aesDecryptECB(cipherBytes, key)
 	case CBC:
-		return AESDecryptToCBC(cipherBytes, key, iv)
+		return aesDecryptCBC(cipherBytes, key, iv)
 	default:
 		return nil, errs.New("unsupported decrypt mode: %v", mode)
 	}
@@ -90,7 +94,7 @@ func aesEncryptECB(rawText []byte, key []byte) ([]byte, error) {
 	return out, nil
 }
 
-func AESDecryptToECB(cipherText []byte, key []byte) ([]byte, error) {
+func aesDecryptECB(cipherText []byte, key []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -126,7 +130,7 @@ func aesEncryptCBC(rawBytes []byte, key []byte, iv []byte) ([]byte, error) {
 	return dst, nil
 }
 
-func AESDecryptToCBC(cipherBytes []byte, key []byte, iv []byte) ([]byte, error) {
+func aesDecryptCBC(cipherBytes []byte, key []byte, iv []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err

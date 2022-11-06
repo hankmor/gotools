@@ -2,7 +2,12 @@ package io
 
 import "os"
 
-func ExistsFile(file string) bool {
+var File = &files{}
+
+type files struct {
+}
+
+func (f *files) Exists(file string) bool {
 	b := Exists(file)
 	if b {
 		f, _ := os.Stat(file)

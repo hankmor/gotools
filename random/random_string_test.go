@@ -1,6 +1,7 @@
-package random
+package random_test
 
 import (
+	"github.com/huzhouv/gotools/random"
 	"github.com/huzhouv/gotools/tester"
 	"math/rand"
 	"testing"
@@ -13,7 +14,7 @@ func TestRandomAlphabetic(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
 		n := rand.Intn(32) + 1
-		s := Alphabetic(n)
+		s := random.Alphabetic(n)
 		tl.Require(n == len(s), "length of generated string should be %d", n)
 	}
 }
@@ -24,7 +25,7 @@ func TestRandomNumber(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
 		n := rand.Intn(32) + 1
-		s := Numeric(n)
+		s := random.Numeric(n)
 		tl.Require(n == len(s), "length of generated string should be %d", n)
 	}
 }
@@ -35,7 +36,18 @@ func TestRandomAlphanumeric(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
 		n := rand.Intn(32) + 1
-		s := Alphanumeric(n)
+		s := random.Alphanumeric(n)
+		tl.Require(n == len(s), "length of generated string should be %d", n)
+	}
+}
+
+func TestRandomHex(t *testing.T) {
+	tl := tester.Wrap(t)
+	tl.Case("loop 10 times to generate random hex string")
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 10; i++ {
+		n := rand.Intn(32) + 1
+		s := random.Hex(n)
 		tl.Require(n == len(s), "length of generated string should be %d", n)
 	}
 }

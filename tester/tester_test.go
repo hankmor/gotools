@@ -1,7 +1,7 @@
 package tester_test
 
 import (
-	"gotools/tester"
+	"github.com/huzhouv/gotools/tester"
 	"testing"
 )
 

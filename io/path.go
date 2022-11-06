@@ -10,8 +10,14 @@ import (
 	"strings"
 )
 
+// Path is the global pointer which hold convenient methods for path operation.
+var Path = &paths{}
+
+type paths struct {
+}
+
 // ExecPath reports the path of current executable file, please see os.Executable for more details .
-func ExecPath() string {
+func (ps *paths) ExecPath() string {
 	_path, err := os.Executable() // 获得程序路径
 	if err != nil {
 		panic(err)
@@ -20,19 +26,19 @@ func ExecPath() string {
 }
 
 // CurrentPath reports the path of current executable file, please see runtime.Caller for more details .
-func CurrentPath() string {
+func (ps *paths) CurrentPath() string {
 	_, filename, _, _ := runtime.Caller(1)
 	return path.Dir(filename)
 }
 
 // PathExists reports whether the given path exists.
-func PathExists(path string) bool {
+func (ps *paths) PathExists(path string) bool {
 	return Exists(path)
 }
 
 // ProjectPath reports root path of current project. It will first execute 'go env GOMOD' command to
 // get full path of 'go.mod' file of current project, if it does not exist then the method will invoke ExecPath.
-func ProjectPath() string {
+func (ps *paths) ProjectPath() string {
 	// default linux/mac os
 	var (
 		sp = "/"
@@ -51,5 +57,5 @@ func ProjectPath() string {
 		ss = ss[:len(ss)-1]
 		return strings.Join(ss, sp)
 	}
-	return ExecPath()
+	return ps.ExecPath()
 }

@@ -14,11 +14,11 @@ func TestPathExists(t *testing.T) {
 
 	lg.Case("give an exists path")
 	path := "/Users/sam/workspace/mine/gotools"
-	lg.Require(io.PathExists(path), "given path should exist")
+	lg.Require(io.Path.PathExists(path), "given path should exist")
 
 	lg.Case("give an none exists path")
 	path = "/Users/haha"
-	lg.Require(!io.PathExists(path), "given path should not exist")
+	lg.Require(!io.Path.PathExists(path), "given path should not exist")
 }
 
 func TestExecPath(t *testing.T) {
@@ -32,7 +32,7 @@ func TestExecPath(t *testing.T) {
 	s, _ := os.Getwd()
 	println(s)
 
-	println(io.ExecPath())
-	println(io.CurrentPath())
-	println(io.ProjectPath())
+	println(io.Path.ExecPath())
+	println(io.Path.CurrentPath())
+	println(io.Path.ProjectPath())
 }

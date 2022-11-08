@@ -88,3 +88,59 @@ func String(a any) string {
 		return v.Type().String() + " value" // 默认输出 v的类型Type value
 	}
 }
+
+func IsUpperChar(c rune) bool {
+	return c >= 'A' && c <= 'Z'
+}
+
+func CamelCaseToUnderscore(s string) string {
+	rs := []rune(s)
+	sb := strings.Builder{}
+	sb.WriteRune(rs[0])
+	added := false // 连续添加下划线标记
+	for i, r := range rs {
+		if i == 0 {
+			continue
+		}
+		// 大写后跟小写，先添加下划线
+		if !added && IsUpperChar(r) && (i < len(rs)-1 && !IsUpperChar(rs[i+1])) {
+			sb.WriteString(Underscore)
+			sb.WriteRune(r)
+			added = true
+			// 大写后跟大写，后追加下划线
+		} else if !added && !IsUpperChar(r) && (i < len(rs)-1 && IsUpperChar(rs[i+1])) {
+			sb.WriteRune(r)
+			sb.WriteString(Underscore)
+			added = true
+		} else {
+			sb.WriteRune(r)
+			added = false
+		}
+	}
+	return strings.ToLower(sb.String())
+}
+
+func UnderscoreToCamelCase(s string) string {
+	rs := []rune(s)
+	sb := strings.Builder{}
+	var lastUnderscore = false
+	for i, r := range rs {
+		if i == 0 {
+			if !IsUpperChar(r) {
+				sb.WriteString(strings.ToUpper(string(r)))
+			}
+			continue
+		}
+		if string(r) != Underscore {
+			if !IsUpperChar(r) && lastUnderscore {
+				sb.WriteString(strings.ToUpper(string(r)))
+			} else {
+				sb.WriteRune(r)
+			}
+			lastUnderscore = false
+		} else {
+			lastUnderscore = true
+		}
+	}
+	return sb.String()
+}

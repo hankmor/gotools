@@ -3,6 +3,7 @@ package str_test
 import (
 	"github.com/huzhouv/gotools/assert"
 	"github.com/huzhouv/gotools/str"
+	"github.com/huzhouv/gotools/tester"
 	"testing"
 )
 
@@ -45,4 +46,42 @@ func TestEndsWith(t *testing.T) {
 	assert.True(str.StartsWith(s, "aaab"))
 	assert.True(!str.StartsWith(s, "aaab1"))
 	assert.True(!str.StartsWith(s, "1aaab1"))
+}
+
+func TestCamelCaseToUnderscore(t *testing.T) {
+	cs := [][]string{
+		{"HelloWorld", "hello_world"},
+		{"helloWorld", "hello_world"},
+		{"Helloworld", "helloworld"},
+		{"AbcDEFGh", "abc_def_gh"},
+		{"AbcDefGh", "abc_def_gh"},
+		{"abcDefGh", "abc_def_gh"},
+		{"abcDefGh😄", "abc_def_gh😄"},
+	}
+
+	tl := tester.Wrap(t)
+	tl.Case("camelcase to underscore")
+
+	for _, c := range cs {
+		r := str.CamelCaseToUnderscore(c[0])
+		tl.Require(r == c[1], "expect result is: %v, but is: %v", c[1], r)
+	}
+}
+
+func TestUnderscoreToCamelCase(t *testing.T) {
+	cs := [][]string{
+		{"HelloWorld", "hello_world"},
+		{"HelloWorld", "hello_world"},
+		{"Helloworld", "helloworld"},
+		{"AbcDefGh", "abc_def_gh"},
+		{"AbcDefGh中文", "abc_def_gh中文"},
+	}
+
+	tl := tester.Wrap(t)
+	tl.Case("camelcase to underscore")
+
+	for _, c := range cs {
+		r := str.UnderscoreToCamelCase(c[1])
+		tl.Require(r == c[0], "expect result is: %v, but is: %v", c[0], r)
+	}
 }

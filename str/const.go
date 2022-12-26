@@ -3,6 +3,7 @@ package str
 const (
 	Ampersand       = "&"
 	And             = "and"
+	Or              = "or"
 	At              = "@"
 	Asterisk        = "*"
 	Star            = Asterisk

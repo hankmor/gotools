@@ -16,7 +16,7 @@ func BlurEmail(email string) string {
 		return email
 	}
 	name := email[0:p]
-	domain := email[p:len(email)]
+	domain := email[p:]
 	b := strings.Builder{}
 	blur := Blur(name, 2, len(name)-1, "*", 4)
 	b.WriteString(blur)

@@ -2,12 +2,12 @@ package maps_test
 
 import (
 	"github.com/huzhouv/gotools/collection/maps"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 
 func TestMap(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 
 	intMap := maps.New[string, int]()
 	intMap.Put("a", 1).Put("b", 2).Put("c", 3)

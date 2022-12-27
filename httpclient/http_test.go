@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/huzhouv/gotools/httpclient"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"io"
 	"io/ioutil"
 	"log"
@@ -59,7 +59,7 @@ func startServer() *http.Server {
 func TestHttp_BuilderGet(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("test send http GET method with builder api")
 	logger.Case("GET html from baidu home page.")
 	httpclient.NewBuilder("http://www.baidu.com").Get().WhenSuccess(func(resp *http.Response) {
@@ -121,7 +121,7 @@ func TestHttp_BuilderGet(t *testing.T) {
 	}).End()
 }
 
-func jsonToUser(r io.Reader, logger *tester.Logger) {
+func jsonToUser(r io.Reader, logger *testool.Logger) {
 	body, err := ioutil.ReadAll(r)
 	if err != nil {
 		logger.Fail("response body should be readable but not: %v", err)
@@ -150,7 +150,7 @@ func jsonToUser(r io.Reader, logger *tester.Logger) {
 func TestHttp_GetString(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Case("using GetString method to get html from localhost:1234")
 	s := httpclient.GetString("http://localhost:1234/html", func(err *httpclient.HttpError) {
 		if err != nil {
@@ -170,7 +170,7 @@ func TestHttp_GetString(t *testing.T) {
 func TestHttp_MustGetString(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("test MustGetString method")
 
 	logger.Case("positive case: get json from localhost:1234")
@@ -190,7 +190,7 @@ func TestHttp_MustGetString(t *testing.T) {
 func TestHttp_MustGet(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Case("using MustGet method to get json string from localhost:1234")
 	httpclient.MustGet("http://localhost:1234/json", func(resp *http.Response) {
 		jsonToUser(resp.Body, logger)
@@ -211,7 +211,7 @@ func TestHttp_MustGet(t *testing.T) {
 func TestHttp_Get(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Case("using Get method to get json string from localhost:1234")
 	httpclient.Get("http://localhost:1234/json", func(resp *http.Response) {
 		jsonToUser(resp.Body, logger)
@@ -233,7 +233,7 @@ func TestHttp_Get(t *testing.T) {
 }
 
 func TestHttp_GetBytes(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("using GetBytes or MustGetBytes method to get bytes")
 	logger.Case("request an image from baidu")
 	url := "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
@@ -258,7 +258,7 @@ func TestHttp_GetJsonObject(t *testing.T) {
 		Height float32 `json:"height"`
 	}
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("using GetJsonObject or MustGetJsonObject method to get object from json response")
 
 	logger.Case("GetJsonObject: request json from localhost:1234 and unmarshal it to user struct")
@@ -281,7 +281,7 @@ func TestHttp_GetJsonObject(t *testing.T) {
 func TestSimplePost(t *testing.T) {
 	startServer()
 
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("test basic post request")
 
 	// Post请求用于向服务器发送资源，这里的查询并不符合restful规范

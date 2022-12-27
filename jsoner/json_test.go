@@ -3,7 +3,7 @@ package jsoner_test
 import (
 	"fmt"
 	"github.com/huzhouv/gotools/jsoner"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 	"time"
 )
@@ -55,7 +55,7 @@ func TestParse(t *testing.T) {
 }
 
 func TestParse1(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 
 	logger.Case("parse user json")
 	s := "{\n  \"Name\": \"张三\",\n  \"Age\": 20,\n  \"BirthDate\": \"2000-01-01T00:00:00+08:00\",\n  \"Other\":17165123123}"
@@ -76,7 +76,7 @@ func TestParse2(t *testing.T) {
 }
 
 func TestParseDisallowUnknownFields(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 
 	logger.Case("add a gender field which will cause panic")
 	// 增加 gender 属性

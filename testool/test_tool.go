@@ -1,4 +1,4 @@
-package tester
+package testool
 
 import (
 	"strconv"

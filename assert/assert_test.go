@@ -2,12 +2,12 @@ package assert_test
 
 import (
 	"github.com/huzhouv/gotools/assert"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 
 func TestRequire(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 	logger.Title("test assert.Require method")
 
 	logger.Case("give a true condition, should not panic")

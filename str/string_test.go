@@ -3,7 +3,7 @@ package str_test
 import (
 	"github.com/huzhouv/gotools/assert"
 	"github.com/huzhouv/gotools/str"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 
@@ -59,7 +59,7 @@ func TestCamelCaseToUnderscore(t *testing.T) {
 		{"abcDefGh😄", "abc_def_gh😄"},
 	}
 
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("camelcase to underscore")
 
 	for _, c := range cs {
@@ -77,7 +77,7 @@ func TestUnderscoreToCamelCase(t *testing.T) {
 		{"AbcDefGh中文", "abc_def_gh中文"},
 	}
 
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("camelcase to underscore")
 
 	for _, c := range cs {

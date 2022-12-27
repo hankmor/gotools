@@ -3,14 +3,13 @@ package io_test
 import (
 	"fmt"
 	"github.com/huzhouv/gotools/io"
-	"github.com/huzhouv/gotools/tester"
 	"os"
 	"path/filepath"
 	"testing"
 )
 
 func TestPathExists(t *testing.T) {
-	lg := tester.Wrap(t)
+	lg := testool.Wrap(t)
 
 	lg.Case("give an exists path")
 	path := "/Users/sam/workspace/mine/gotools"

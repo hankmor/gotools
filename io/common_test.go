@@ -2,12 +2,11 @@ package io_test
 
 import (
 	"github.com/huzhouv/gotools/io"
-	"github.com/huzhouv/gotools/tester"
 	"testing"
 )
 
 func TestExists(t *testing.T) {
-	lg := tester.Wrap(t)
+	lg := testool.Wrap(t)
 
 	lg.Case("give a existing dir")
 	f := "/Users/sam/workspace/mine/gotools/io/"
@@ -19,7 +18,7 @@ func TestExists(t *testing.T) {
 }
 
 func TestIsDir(t *testing.T) {
-	lg := tester.Wrap(t)
+	lg := testool.Wrap(t)
 
 	lg.Case("give a existing dir")
 	f := "/Users/sam/workspace/mine/gotools/io/"
@@ -31,7 +30,7 @@ func TestIsDir(t *testing.T) {
 }
 
 func TestIsRegularFile(t *testing.T) {
-	lg := tester.Wrap(t)
+	lg := testool.Wrap(t)
 
 	lg.Case("give a existing dir")
 	f := "/Users/sam/workspace/mine/gotools/io/"

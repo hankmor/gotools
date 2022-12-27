@@ -2,12 +2,11 @@ package io_test
 
 import (
 	"github.com/huzhouv/gotools/io"
-	"github.com/huzhouv/gotools/tester"
 	"testing"
 )
 
 func TestExistsFile(t *testing.T) {
-	lg := tester.Wrap(t)
+	lg := testool.Wrap(t)
 
 	lg.Case("give a existing file")
 	f := "/Users/sam/workspace/mine/gotools/io/file_test.go"

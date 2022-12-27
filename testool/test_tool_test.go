@@ -1,12 +1,12 @@
-package tester_test
+package testool_test
 
 import (
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 
 func TestWrap(t *testing.T) {
-	tr := tester.Wrap(t)
+	tr := testool.Wrap(t)
 	tr.Case("wrapping testing.T")
 	tr.Require(tr != nil, "wrapping should be success")
 }

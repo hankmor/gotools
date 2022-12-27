@@ -2,14 +2,14 @@ package random_test
 
 import (
 	"github.com/huzhouv/gotools/random"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"math/rand"
 	"testing"
 	"time"
 )
 
 func TestRandomAlphabetic(t *testing.T) {
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("loop 10 times to generate random string")
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
@@ -20,7 +20,7 @@ func TestRandomAlphabetic(t *testing.T) {
 }
 
 func TestRandomNumber(t *testing.T) {
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("loop 10 times to generate random number as string")
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
@@ -31,7 +31,7 @@ func TestRandomNumber(t *testing.T) {
 }
 
 func TestRandomAlphanumeric(t *testing.T) {
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("loop 10 times to generate random Alphanumeric")
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {
@@ -42,7 +42,7 @@ func TestRandomAlphanumeric(t *testing.T) {
 }
 
 func TestRandomHex(t *testing.T) {
-	tl := tester.Wrap(t)
+	tl := testool.Wrap(t)
 	tl.Case("loop 10 times to generate random hex string")
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 10; i++ {

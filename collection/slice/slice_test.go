@@ -3,7 +3,7 @@ package slice_test
 import (
 	"fmt"
 	"github.com/huzhouv/gotools/collection/slice"
-	"github.com/huzhouv/gotools/tester"
+	"github.com/huzhouv/gotools/testool"
 	"reflect"
 	"testing"
 )
@@ -27,7 +27,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestRetain(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 
 	ret := slice.Wrap(testSlice).Retain(func(a int) bool {
 		return a > 5
@@ -48,7 +48,7 @@ func TestRetain(t *testing.T) {
 }
 
 func TestJoin(t *testing.T) {
-	logger := tester.Wrap(t)
+	logger := testool.Wrap(t)
 
 	s := slice.Wrap(testSlice).Join(",")
 	logger.Require(s == "1,2,3,4,5,6,7,8,9", "%v join result should be %s", testSlice, s)

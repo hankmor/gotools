@@ -17,15 +17,15 @@ var AES = &aeser{}
 type aeser struct {
 }
 
+type AesMode int
+
 const (
 	// ECB 加密模式：https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#ECB
 	// ECB 模式存在安全性问题，不建议使用，详见：https://crypto.stackexchange.com/questions/20941/why-shouldnt-i-use-ecb-encryption/20946#20946
-	ECB = iota
+	ECB AesMode = iota
 	// CBC 加密模式：https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC
 	CBC
 )
-
-type AesMode int
 
 func (a *aeser) Encrypt(rawBytes []byte, key []byte, mode AesMode, iv []byte) ([]byte, error) {
 	switch mode {

@@ -24,7 +24,7 @@ func New(s string, v ...any) error {
 	if v == nil {
 		return errors.New(s)
 	}
-	return errors.New(fmt.Sprintf(s, v))
+	return errors.New(fmt.Sprintf(s, v...))
 }
 
 // Must method expect there must no error, i.e. err argument is nil, if it is not, then

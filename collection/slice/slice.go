@@ -1,7 +1,7 @@
 package slice
 
 import (
-	"github.com/huzhouv/gotools/str"
+	"gotools/str"
 	"reflect"
 	"sort"
 	"strings"

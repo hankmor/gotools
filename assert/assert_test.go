@@ -1,8 +1,8 @@
 package assert_test
 
 import (
-	"github.com/huzhouv/gotools/assert"
-	"github.com/huzhouv/gotools/testool"
+	"gotools/assert"
+	"gotools/testool"
 	"testing"
 )
 

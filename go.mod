@@ -1,3 +1,3 @@
-module github.com/huzhouv/gotools
+module gotools
 
 go 1.18

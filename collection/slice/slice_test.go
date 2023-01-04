@@ -2,8 +2,8 @@ package slice_test
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/collection/slice"
-	"github.com/huzhouv/gotools/testool"
+	"gotools/collection/slice"
+	"gotools/testool"
 	"reflect"
 	"testing"
 )

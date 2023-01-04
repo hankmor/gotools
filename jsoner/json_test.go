@@ -2,8 +2,8 @@ package jsoner_test
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/jsoner"
-	"github.com/huzhouv/gotools/testool"
+	"gotools/jsoner"
+	"gotools/testool"
 	"testing"
 	"time"
 )

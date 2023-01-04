@@ -1,8 +1,8 @@
 package random_test
 
 import (
-	"github.com/huzhouv/gotools/random"
-	"github.com/huzhouv/gotools/testool"
+	"gotools/random"
+	"gotools/testool"
 	"math/rand"
 	"testing"
 	"time"

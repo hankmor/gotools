@@ -62,7 +62,7 @@ func TestHttp_BuilderGet(t *testing.T) {
 	logger := testool.Wrap(t)
 	logger.Title("test send http GET method with builder api")
 	logger.Case("GET html from baidu home page.")
-	httpclient.NewBuilder("http://www.baidu.com").Get().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://www.baidu.com").WhenSuccess(func(resp *http.Response) {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -75,12 +75,12 @@ func TestHttp_BuilderGet(t *testing.T) {
 		} else {
 			logger.Pass("should has body")
 		}
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		logger.Fail("should has no error but found: %v", err)
-	}).End()
+	}).Get()
 
 	logger.Case("GET html from localhost:1234.")
-	httpclient.NewBuilder("http://localhost:1234/html").Get().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://localhost:1234/html").WhenSuccess(func(resp *http.Response) {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			logger.Fail("response body should be readable but not: %v", err)
@@ -92,33 +92,33 @@ func TestHttp_BuilderGet(t *testing.T) {
 		} else {
 			logger.Pass("should return the correct html")
 		}
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		logger.Fail("should has not error but found: %v", err)
-	}).End()
+	}).Get()
 
 	logger.Case("GET json from localhost:1234.")
-	httpclient.NewBuilder("http://localhost:1234/json").Get().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://localhost:1234/json").WhenSuccess(func(resp *http.Response) {
 		jsonToUser(resp.Body, logger)
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		logger.Fail("should has not error but found: %v", err)
-	}).End()
+	}).Get()
 
-	// NewBuilder("http://localhost:1234/json").Get().ReadResp().WhenFailed(func(err error, resp *http.Response) {
+	// NewBuilder("http://localhost:1234/json").ReadResp().WhenFailed(func(err error, resp *http.Response) {
 	// 	t.Fatal(err)
-	// }).End()
+	// }).Get()
 
 	logger.Case("GET unknown url from localhost:1234.")
-	httpclient.NewBuilder("http://localhost:1234/unknown").Get().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://localhost:1234/unknown").WhenSuccess(func(resp *http.Response) {
 		if resp != nil {
 			logger.Fail("should be nil response but not")
 		}
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		if err == nil {
 			logger.Fail("expect occur an error but no one")
 		} else {
 			logger.Pass("get an expected error: %v", err)
 		}
-	}).End()
+	}).Get()
 }
 
 func jsonToUser(r io.Reader, logger *testool.Logger) {
@@ -152,7 +152,7 @@ func TestHttp_GetString(t *testing.T) {
 
 	logger := testool.Wrap(t)
 	logger.Case("using GetString method to get html from localhost:1234")
-	s := httpclient.GetString("http://localhost:1234/html", func(err *httpclient.HttpError) {
+	s := httpclient.GetString("http://localhost:1234/html", func(err error) {
 		if err != nil {
 			logger.Fail("should has no error but found: %v", err)
 		} else {
@@ -162,7 +162,7 @@ func TestHttp_GetString(t *testing.T) {
 	logger.Require(s == html, "response html should match the dest")
 
 	logger.Case("using GetString method to get string from unknown url, should be failed")
-	httpclient.GetString("http://localhost:1234/unknown", func(err *httpclient.HttpError) {
+	httpclient.GetString("http://localhost:1234/unknown", func(err error) {
 		logger.Require(err != nil, "request should be unsuccessful: %v", err)
 	})
 }
@@ -215,7 +215,7 @@ func TestHttp_Get(t *testing.T) {
 	logger.Case("using Get method to get json string from localhost:1234")
 	httpclient.Get("http://localhost:1234/json", func(resp *http.Response) {
 		jsonToUser(resp.Body, logger)
-	}, func(err *httpclient.HttpError) {
+	}, func(err error) {
 		logger.Require(err == nil, "should not occur an error")
 	})
 	logger.Pass("request should be successful")
@@ -226,7 +226,7 @@ func TestHttp_Get(t *testing.T) {
 			err := recover()
 			logger.Require(err != nil, "request should be failed: %v", err)
 		}()
-		httpclient.Get("http://localhost:1234/unknown", func(resp *http.Response) {}, func(err *httpclient.HttpError) {
+		httpclient.Get("http://localhost:1234/unknown", func(resp *http.Response) {}, func(err error) {
 			panic(err) // if has an error, panic it
 		})
 	}()
@@ -237,8 +237,8 @@ func TestHttp_GetBytes(t *testing.T) {
 	logger.Title("using GetBytes or MustGetBytes method to get bytes")
 	logger.Case("request an image from baidu")
 	url := "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
-	bs := httpclient.GetBytes(url, func(err *httpclient.HttpError) {
-		logger.Require(err.Err == nil, "request should be successful with no error")
+	bs := httpclient.GetBytes(url, func(err error) {
+		logger.Require(err == nil, "request should be successful with no error")
 	})
 	logger.Pass("request should be successful")
 	logger.Require(len(bs) > 0, "response data should has content")
@@ -262,7 +262,7 @@ func TestHttp_GetJsonObject(t *testing.T) {
 	logger.Title("using GetJsonObject or MustGetJsonObject method to get object from json response")
 
 	logger.Case("GetJsonObject: request json from localhost:1234 and unmarshal it to user struct")
-	u := httpclient.GetJsonObject("http://localhost:1234/json", func(err *httpclient.HttpError) {
+	u := httpclient.GetJsonObject("http://localhost:1234/json", func(err error) {
 		logger.Require(err == nil, "request should be successful")
 	}, &user{})
 	logger.Require(u != nil, "request should be successful")
@@ -288,7 +288,7 @@ func TestSimplePost(t *testing.T) {
 
 	logger.Case("simplest post html")
 	var s string
-	httpclient.NewBuilder("http://localhost:1234/html").Post().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://localhost:1234/html").WhenSuccess(func(resp *http.Response) {
 		bytes, err := io.ReadAll(resp.Body)
 		if err != nil {
 			logger.Fail("should can read response data, but got error: %v", err)
@@ -301,14 +301,14 @@ func TestSimplePost(t *testing.T) {
 			logger.Pass("should has body")
 		}
 		s = string(bytes)
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		logger.Require(err == nil, "request should be successful")
-	}).End()
+	}).Post()
 	logger.Require(html == s, "post result with string should be correct")
 
 	logger.Case("simplest post json")
 	var js string
-	httpclient.NewBuilder("http://localhost:1234/json").Post().WhenSuccess(func(resp *http.Response) {
+	httpclient.NewBuilder("http://localhost:1234/json").WhenSuccess(func(resp *http.Response) {
 		bytes, err := io.ReadAll(resp.Body)
 		if err != nil {
 			logger.Fail("should can read response data, but got error: %v", err)
@@ -321,8 +321,8 @@ func TestSimplePost(t *testing.T) {
 			logger.Pass("should has body")
 		}
 		js = string(bytes)
-	}).WhenFailed(func(err *httpclient.HttpError) {
+	}).WhenFailed(func(err error) {
 		logger.Require(err == nil, "request should be successful")
-	}).End()
+	}).Post()
 	logger.Require(js == jsonstr, "post result with string should be correct")
 }

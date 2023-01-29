@@ -18,15 +18,15 @@ func ExampleBuilderGet() {
 
 	var ret string
 	// 构建 get 请求
-	httpclient.NewBuilder("http://localhost:1234/html").Get().WhenSuccess(func(resp *http.Response) { // 请求成功处理
+	httpclient.NewBuilder("http://localhost:1234/html").WhenSuccess(func(resp *http.Response) { // 请求成功处理
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatalf("response body should be readable but not: %v", err)
 		}
 		ret = string(body)
-	}).WhenFailed(func(err *httpclient.HttpError) { // 请求失败处理
+	}).WhenFailed(func(err error) { // 请求失败处理
 		panic(err)
-	}).End() // 请求完成，清理资源
+	}).Get() // 请求完成，清理资源
 
 	fmt.Println(ret)
 	// Output:
@@ -36,7 +36,7 @@ func ExampleBuilderGet() {
 func ExampleGetString() {
 	startServer()
 
-	s := httpclient.GetString("http://localhost:1234/json", func(err *httpclient.HttpError) {
+	s := httpclient.GetString("http://localhost:1234/json", func(err error) {
 		if err != nil {
 			log.Fatalf("should has no error but found: %v", err)
 		}
@@ -81,7 +81,7 @@ func ExampleGet() {
 			panic(err)
 		}
 		s = string(bs)
-	}, func(err *httpclient.HttpError) {
+	}, func(err error) {
 		panic(err)
 	})
 
@@ -93,7 +93,7 @@ func ExampleGet() {
 func ExampleGetBytes() {
 	startServer()
 
-	bs := httpclient.GetBytes("http://localhost:1234/json", func(err *httpclient.HttpError) {
+	bs := httpclient.GetBytes("http://localhost:1234/json", func(err error) {
 		panic(err)
 	})
 	fmt.Println(string(bs))
@@ -119,7 +119,7 @@ type user struct {
 func ExampleGetJsonObject() {
 	startServer()
 
-	u := httpclient.GetJsonObject("http://localhost:1234/json", func(err *httpclient.HttpError) {
+	u := httpclient.GetJsonObject("http://localhost:1234/json", func(err error) {
 		panic(err)
 	}, &user{})
 

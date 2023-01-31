@@ -244,6 +244,24 @@ func PostJson(url string, body io.Reader, errHandler ErrHandler, headers ...KV) 
 	return s
 }
 
+func MustPostForm(url string, body io.Reader, headers ...KV) string {
+	return PostForm(url, body, func(err error) {
+		panic(err)
+	}, headers...)
+}
+
+func PostForm(url string, body io.Reader, errHandler ErrHandler, headers ...KV) string {
+	var s string
+	NewBuilder(url).ContentType(ContentTypeApplicationFormUrlencoded).Body(body).WhenSuccess(func(resp *http.Response) {
+		bs, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			panic(fmt.Sprintf("read response data error: %v", err))
+		}
+		s = string(bs)
+	}).WhenFailed(errHandler).Headers(headers...).Post()
+	return s
+}
+
 func MustPostBytes(url string, ct ContentType, body io.Reader, headers ...KV) []byte {
 	return PostBytes(url, ct, body, func(err error) {
 		panic(fmt.Sprintf("request failed: %v", err))

@@ -65,7 +65,7 @@ func (s S[T]) Join(sep string) string {
 // SortableSlice is a struct to define a sortable slice, it implements sort.Interface.
 type SortableSlice[T any] struct {
 	slice S[T]
-	less  func(x, y *T) bool // 比较的方法，参数为T的指针，直接更改原始slice的顺序
+	less  func(x, y T) bool // 比较的方法，参数为T的指针，直接更改原始slice的顺序
 }
 
 func (s SortableSlice[T]) Len() int {
@@ -73,7 +73,7 @@ func (s SortableSlice[T]) Len() int {
 }
 
 func (s SortableSlice[T]) Less(i, j int) bool {
-	return s.less(&s.slice[i], &s.slice[j])
+	return s.less(s.slice[i], s.slice[j])
 }
 
 func (s SortableSlice[T]) Swap(i, j int) {
@@ -81,9 +81,9 @@ func (s SortableSlice[T]) Swap(i, j int) {
 }
 
 // Sort is a method to sort the original slice by the given argument less, which is a method to define how to compare
-// the elements in it, this less method receive two *T type so Sort method will change the original slice.
+// the elements in it, this less method receive two T type so Sort method will NOT change the original slice.
 // Sort will return a SortableSlice instance, so you could invoke its other api such as SortableSlice.Reverse etc.
-func (s S[T]) Sort(less func(x, y *T) bool) SortableSlice[T] {
+func (s S[T]) Sort(less func(x, y T) bool) SortableSlice[T] {
 	v := &SortableSlice[T]{s, less}
 	sort.Sort(v)
 	return *v

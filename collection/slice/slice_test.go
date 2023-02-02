@@ -63,8 +63,8 @@ func TestJoin(t *testing.T) {
 func TestSort(t *testing.T) {
 	var ss = []int{5, 6, 7, 8, 9, 1, 2, 3, 4}
 	s := slice.Wrap(ss)
-	sr := s.Sort(func(i, j *int) bool {
-		if *i < *j {
+	sr := s.Sort(func(i, j int) bool {
+		if i < j {
 			return true
 		}
 		return false
@@ -89,7 +89,7 @@ func TestSortObj(t *testing.T) {
 	}
 
 	s := slice.Wrap(users)
-	sr := s.Sort(func(a, b *user) bool {
+	sr := s.Sort(func(a, b user) bool {
 		if a.score != b.score {
 			return a.score > b.score
 		}

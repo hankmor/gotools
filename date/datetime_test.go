@@ -2,7 +2,7 @@ package date_test
 
 import (
 	"fmt"
-	"gotools/date"
+	"github.com/huzhouv/gotools/date"
 	"testing"
 	"time"
 )

@@ -2,7 +2,7 @@ package prob
 
 import (
 	"fmt"
-	"gotools/assert"
+	"github.com/huzhouv/gotools/assert"
 	"math/rand"
 )
 

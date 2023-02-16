@@ -4,14 +4,12 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"gotools/errs"
+	"github.com/huzhouv/gotools/errs"
 )
 
-//
 // AES 加密算法
 //
 // https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
-//
 var AES = &aeser{}
 
 type aeser struct {

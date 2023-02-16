@@ -1,8 +1,8 @@
 package maps_test
 
 import (
-	"gotools/collection/maps"
-	"gotools/testool"
+	"github.com/huzhouv/gotools/collection/maps"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 

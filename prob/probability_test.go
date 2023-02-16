@@ -2,7 +2,7 @@ package prob_test
 
 import (
 	"fmt"
-	"gotools/prob"
+	"github.com/huzhouv/gotools/prob"
 	"math"
 	"testing"
 )

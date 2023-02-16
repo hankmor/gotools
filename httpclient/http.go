@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gotools/errs"
+	"github.com/huzhouv/gotools/errs"
 	"io"
 	"io/ioutil"
 	"net/http"

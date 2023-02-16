@@ -2,8 +2,8 @@ package io_test
 
 import (
 	"fmt"
-	"gotools/io"
-	"gotools/testool"
+	"github.com/huzhouv/gotools/io"
+	"github.com/huzhouv/gotools/testool"
 	"os"
 	"path/filepath"
 	"testing"

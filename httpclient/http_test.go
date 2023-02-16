@@ -3,8 +3,8 @@ package httpclient_test
 import (
 	"encoding/json"
 	"fmt"
-	"gotools/httpclient"
-	"gotools/testool"
+	"github.com/huzhouv/gotools/httpclient"
+	"github.com/huzhouv/gotools/testool"
 	"io"
 	"io/ioutil"
 	"log"

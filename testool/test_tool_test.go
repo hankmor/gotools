@@ -1,7 +1,7 @@
 package testool_test
 
 import (
-	"gotools/testool"
+	"github.com/huzhouv/gotools/testool"
 	"testing"
 )
 

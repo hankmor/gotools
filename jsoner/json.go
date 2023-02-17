@@ -36,14 +36,26 @@ func ToJson(t any, options ...MarshalOption) string {
 	return string(bs)
 }
 
-func Parse(str string, t any, options ...UnmarshalOption) any {
-	d := json.NewDecoder(bytes.NewReader([]byte(str)))
-	for _, option := range options {
-		option(d)
+func Parse[T any](b []byte, t T, options ...UnmarshalOption) (T, error) {
+	err := createDecoder(b, options).Decode(t)
+	if err != nil {
+		return t, err
 	}
-	err := d.Decode(t)
+	return t, nil
+}
+
+func MustParse[T any](b []byte, t T, options ...UnmarshalOption) T {
+	err := createDecoder(b, options).Decode(t)
 	if err != nil {
 		panic(err)
 	}
 	return t
+}
+
+func createDecoder(b []byte, options []UnmarshalOption) *json.Decoder {
+	d := json.NewDecoder(bytes.NewReader(b))
+	for _, option := range options {
+		option(d)
+	}
+	return d
 }

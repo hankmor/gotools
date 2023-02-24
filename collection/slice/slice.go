@@ -8,17 +8,17 @@ import (
 )
 
 // S is a generic slice type.
-type S[T any] []T
+type S[T comparable] []T
 
-func New[T any]() S[T] {
+func New[T comparable]() S[T] {
 	return make(S[T], 0)
 }
 
-func NewSize[T any](size int) S[T] {
+func NewSize[T comparable](size int) S[T] {
 	return make(S[T], size)
 }
 
-func Wrap[T any](s []T) S[T] {
+func Wrap[T comparable](s []T) S[T] {
 	if reflect.TypeOf(s).Kind() != reflect.Slice {
 		panic("require slice")
 	}
@@ -60,10 +60,69 @@ func (s S[T]) Join(sep string) string {
 	return strings.Join(ret, sep)
 }
 
+// Union returns all elements of the two slices, i.e. the result is and union set.
+func (s S[T]) Union(dest []T) []T {
+	var ret []T = s
+	var d = Wrap(dest)
+	for _, a := range s {
+		d = d.Delete(a)
+	}
+	ret = append(ret, d...)
+	return ret
+}
+
+// Intersect returns those elements that both the source and the dest slice have. i.e. the result is and intersection set.
+func (s S[T]) Intersect(dest []T) []T {
+	var ret []T
+	for _, v := range s {
+		find := false
+		for _, el := range dest {
+			if v == el {
+				find = true
+				break
+			}
+		}
+		if find {
+			ret = append(ret, v)
+		}
+	}
+	return ret
+}
+
+// Diff returns the different elements between source and dest slice.
+func (s S[T]) Diff(dest []T) []T {
+	var ret = s.Union(dest)
+	var it = s.Intersect(dest)
+	return Wrap(ret).Remove(it)
+}
+
+// Remove method will remove elements which the dest slice have from the source slice.
+func (s S[T]) Remove(dest []T) []T {
+	return s.Delete(dest...)
+}
+
+// Delete will delete the give elements.
+func (s S[T]) Delete(elem ...T) []T {
+	var ret []T
+	for _, v := range s {
+		find := false
+		for _, el := range elem {
+			if v == el {
+				find = true
+				break
+			}
+		}
+		if !find {
+			ret = append(ret, v)
+		}
+	}
+	return ret
+}
+
 // sortable slice
 
 // SortableSlice is a struct to define a sortable slice, it implements sort.Interface.
-type SortableSlice[T any] struct {
+type SortableSlice[T comparable] struct {
 	slice S[T]
 	less  func(x, y T) bool // 比较的方法，参数为T的指针，直接更改原始slice的顺序
 }

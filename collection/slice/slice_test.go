@@ -31,7 +31,7 @@ func TestRetain(t *testing.T) {
 
 	ret := slice.Wrap(testSlice).Retain(func(a int) bool {
 		return a > 5
-	})
+	}).Raw()
 	fmt.Println(testSlice)
 	expect := []int{6, 7, 8, 9}
 	logger.Require(reflect.DeepEqual(expect, ret), "expect %#v, actual %#v", expect, ret)
@@ -67,7 +67,7 @@ func TestUnion(t *testing.T) {
 	logger := testool.Wrap(t)
 	sl := []int{1, 2, 3, 4, 5, 6, 10, 11}
 	want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
-	ret := slice.Wrap(testSlice).Union(sl)
+	ret := slice.Wrap(testSlice).Union(sl).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, before), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result is correct")
 }
@@ -78,7 +78,7 @@ func TestIntersect(t *testing.T) {
 	logger := testool.Wrap(t)
 	sl := []int{1, 2, 3, 10, 11}
 	want := []int{1, 2, 3}
-	ret := slice.Wrap(testSlice).Intersect(sl)
+	ret := slice.Wrap(testSlice).Intersect(sl).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, before), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result is correct")
 }
@@ -89,7 +89,7 @@ func TestRemove(t *testing.T) {
 	logger := testool.Wrap(t)
 	sl := []int{1, 2, 3, 10, 11}
 	want := []int{4, 5, 6, 7, 8, 9}
-	ret := slice.Wrap(testSlice).Remove(sl)
+	ret := slice.Wrap(testSlice).Remove(sl).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, before), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result is correct")
 }
@@ -100,7 +100,7 @@ func TestDiff(t *testing.T) {
 	logger := testool.Wrap(t)
 	sl := []int{1, 2, 3, 10, 11}
 	want := []int{4, 5, 6, 7, 8, 9, 10, 11}
-	ret := slice.Wrap(testSlice).Diff(sl)
+	ret := slice.Wrap(testSlice).Diff(sl).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, before), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result is correct")
 }
@@ -110,14 +110,40 @@ func TestDelete(t *testing.T) {
 
 	logger := testool.Wrap(t)
 	want := []int{4, 5, 6, 7, 8, 9}
-	var ret = slice.Wrap(testSlice).Delete(1, 2, 3)
+	var ret = slice.Wrap(testSlice).Delete(1, 2, 3).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, raw), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result correct")
 
 	want = []int{2, 4, 6, 8}
-	ret = slice.Wrap(testSlice).Delete(1, 3, 5, 7, 9)
+	ret = slice.Wrap(testSlice).Delete(1, 3, 5, 7, 9).Raw()
 	logger.Require(reflect.DeepEqual(testSlice, raw), "raw slice should not be changed")
 	logger.Require(reflect.DeepEqual(ret, want), "result correct")
+}
+
+func TestRemoveDuplicate(t *testing.T) {
+	logger := testool.Wrap(t)
+
+	raw := []int{1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7}
+	ret := slice.Wrap(raw).RemoveDuplicate().Raw()
+	want := []int{1, 2, 3, 4, 5, 6, 7}
+	logger.Require(reflect.DeepEqual(raw, []int{1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7}), "raw slice should not be changed")
+	logger.Require(reflect.DeepEqual(ret, want), "result correct")
+}
+
+func TestChainInvoke(t *testing.T) {
+	logger := testool.Wrap(t)
+
+	want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	// not use Raw()
+	ret := slice.Wrap(testSlice).Union([]int{1, 2, 3, 4, 10}).RemoveDuplicate()
+	logger.Require(slice.Equal(testSlice, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}), "raw slice should not be changed")
+	logger.Require(slice.Equal(ret, want), "correct result")
+
+	want = []int{1, 2, 3, 10}
+	// use Raw()
+	ret1 := slice.Wrap(testSlice).Union([]int{1, 2, 3, 4, 10}).Intersect([]int{1, 2, 3, 10, 11, 12}).Raw()
+	logger.Require(reflect.DeepEqual(testSlice, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}), "raw slice should not be changed")
+	logger.Require(reflect.DeepEqual(ret1, want), "correct result")
 }
 
 func TestSort(t *testing.T) {

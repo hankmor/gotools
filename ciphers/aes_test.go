@@ -19,14 +19,16 @@ func TestAES(t *testing.T) {
 
 	// CBC
 	// 随机 iv，长度为16字节，每次密文不同
-	iv := []byte(random.Hex(len(key)))
+	r := random.Hex(len(key))
+	fmt.Println("random iv:", r)
+	iv := []byte(r)
 	s, _ = ciphers.AES.Encrypt([]byte(plainText), key, ciphers.CBC, iv)
 	fmt.Printf("%x\n", s) // 随机密文
 	s, _ = ciphers.AES.Decrypt(s, key, ciphers.CBC, iv)
 	fmt.Println(string(s))
 
 	// 固定 iv，每次加密密文相同
-	iv = key[:len(key)]
+	iv = key
 	s, _ = ciphers.AES.Encrypt([]byte(plainText), key, ciphers.CBC, iv)
 	fmt.Printf("%x\n", s) // 固定密文：0735437968e811771051aa81734b1098b8353285c0c9517a752a429a3efc44fe
 	s, _ = ciphers.AES.Decrypt(s, key, ciphers.CBC, iv)

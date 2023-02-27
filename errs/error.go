@@ -27,17 +27,9 @@ func New(s string, v ...any) error {
 	return errors.New(fmt.Sprintf(s, v...))
 }
 
-// Must method expect there must no error, i.e. err argument is nil, if it is not, then
+// Throwv method expect there must no error, i.e. err argument is nil, if it is not, then
 // panic it, otherwise return the first argument.
-func Must[T any](v T, err error) T {
+func Throwv[T any](v T, err error) T {
 	Throw(err)
 	return v
-}
-
-// Get will return the given error when it is not nil, otherwise return nil.
-func Get(err error) error {
-	if err != nil {
-		return err
-	}
-	return nil
 }

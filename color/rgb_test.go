@@ -1,8 +1,8 @@
 package color_test
 
 import (
-	"github.com/huzhouv/gotools/color"
-	"github.com/huzhouv/gotools/testool"
+	"github.com/hankmor/gotools/color"
+	"github.com/hankmor/gotools/testool"
 	"strings"
 	"testing"
 )

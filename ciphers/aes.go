@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"github.com/huzhouv/gotools/errs"
+	"github.com/hankmor/gotools/errs"
 )
 
 // AES 加密算法

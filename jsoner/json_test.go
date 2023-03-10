@@ -2,8 +2,8 @@ package jsoner_test
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/jsoner"
-	"github.com/huzhouv/gotools/testool"
+	"github.com/hankmor/gotools/jsoner"
+	"github.com/hankmor/gotools/testool"
 	"testing"
 	"time"
 )
@@ -50,7 +50,7 @@ func TestToJsonf(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	s := "{\"Name\":\"张三\",\"Age\":20,\"BirthDate\":\"2000-01-01T00:00:00+08:00\",\"Other\":171.65}"
-	u := jsoner.Parse(s, &User{})
+	u, _ := jsoner.Parse([]byte(s), &User{})
 	fmt.Printf("user: %v\n", u)
 }
 
@@ -59,14 +59,14 @@ func TestParse1(t *testing.T) {
 
 	logger.Case("parse user json")
 	s := "{\n  \"Name\": \"张三\",\n  \"Age\": 20,\n  \"BirthDate\": \"2000-01-01T00:00:00+08:00\",\n  \"Other\":17165123123}"
-	u := jsoner.Parse(s, &User{})
+	u, _ := jsoner.Parse([]byte(s), &User{})
 	fmt.Printf("user: %v\n", u)
 }
 
 func TestParse2(t *testing.T) {
 	s := "{\"Name\":\"张三\",\"Age\":20,\"BirthDate\":\"2000-01-01T00:00:00+08:00\",\"Other\":17165123123}"
 	var mp = make(map[string]any)
-	jsoner.Parse(s, &mp)
+	jsoner.Parse([]byte(s), &mp)
 	// jsoner.Parse(s, &mp, jsoner.UseNumber) // 使用参数将 Other 处理为 number，而不是 float64
 	fmt.Printf("user: %v\n", mp)
 	fmt.Printf("name: %v\n", mp["Name"])
@@ -88,6 +88,6 @@ func TestParseDisallowUnknownFields(t *testing.T) {
 			logger.Fail("should panic")
 		}
 	}()
-	u := jsoner.Parse(s, &User{}, jsoner.DisallowUnknownFields)
+	u, _ := jsoner.Parse([]byte(s), &User{}, jsoner.DisallowUnknownFields)
 	fmt.Printf("user: %v\n", u)
 }

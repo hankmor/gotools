@@ -1,8 +1,8 @@
 package io_test
 
 import (
-	"github.com/huzhouv/gotools/io"
-	"github.com/huzhouv/gotools/testool"
+	"github.com/hankmor/gotools/io"
+	"github.com/hankmor/gotools/testool"
 	"testing"
 )
 

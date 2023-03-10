@@ -2,7 +2,7 @@ package base64s_test
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/ciphers/base64s"
+	"github.com/hankmor/gotools/ciphers/base64s"
 	"reflect"
 	"testing"
 )

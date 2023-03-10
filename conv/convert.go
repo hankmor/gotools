@@ -2,7 +2,7 @@ package conv
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/errs"
+	"github.com/hankmor/gotools/errs"
 	"math/big"
 	"strconv"
 	"strings"

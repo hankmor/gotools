@@ -2,7 +2,7 @@ package reflectool_test
 
 import (
 	"fmt"
-	"github.com/huzhouv/gotools/reflectool"
+	"github.com/hankmor/gotools/reflectool"
 	"testing"
 )
 

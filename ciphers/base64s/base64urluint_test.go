@@ -1,8 +1,8 @@
 package base64s_test
 
 import (
-	"github.com/huzhouv/gotools/ciphers/base64s"
-	"github.com/huzhouv/gotools/testool"
+	"github.com/hankmor/gotools/ciphers/base64s"
+	"github.com/hankmor/gotools/testool"
 	"math/big"
 	"reflect"
 	"testing"

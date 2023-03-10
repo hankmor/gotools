@@ -1,9 +1,9 @@
 package str_test
 
 import (
-	"github.com/huzhouv/gotools/assert"
-	"github.com/huzhouv/gotools/str"
-	"github.com/huzhouv/gotools/testool"
+	"github.com/hankmor/gotools/assert"
+	"github.com/hankmor/gotools/str"
+	"github.com/hankmor/gotools/testool"
 	"testing"
 )
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hankmor/gotools/assert"
 	"math/rand"
+	"time"
 )
 
 // Percent method calculates the percentage probability. Define a number within 100,
@@ -16,13 +17,15 @@ func Percent(r int) bool {
 	if r == 100 {
 		return true
 	}
-	n := rand.Intn(100)
+	rd := rand.NewSource(time.Now().UnixNano())
+	n := rand.New(rd).Intn(100)
 	return n <= r
 }
 
 // Half method calculates the percentage probability that both of which hit or not hit is 50%.
 func Half() bool {
-	return rand.Intn(2) == 1
+	rd := rand.NewSource(time.Now().UnixNano())
+	return rand.New(rd).Intn(2) == 1
 }
 
 // Select is a method which calculates the proportion of each element in the given int slice in entire of it.
@@ -41,7 +44,8 @@ func Select(is []int) int {
 	if num == 0 {
 		panic("invalid parameter, total value is zero")
 	}
-	r := rand.Intn(num)
+	rd := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(rd).Intn(num)
 	rate := 0
 	for i, v := range is {
 		rate += v

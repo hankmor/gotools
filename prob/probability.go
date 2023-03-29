@@ -28,7 +28,8 @@ func Half() bool {
 	return rand.New(rd).Intn(2) == 1
 }
 
-// Select is a method which calculates the proportion of each element in the given int slice in entire of it.
+// Select is a method which calculates the proportion of each element in the given int slice in entire of it, the order
+// of the given slice is unconcerned.
 //
 // This method first calculates the total value of the entire slice, and then calculates a random number based on it,
 // then it matches the random number with each element in the slice in order.

@@ -86,6 +86,12 @@ func TestSelectProb(t *testing.T) {
 	createSelectProbCase([]int{20, 100, 200, 300, 400}, t)
 }
 
+func ExampleSelect() {
+	prob.Select([]int{4, 1, 0, 0})
+	prob.Select([]int{4, 1, 0, 0, 1, 2})
+	prob.Select([]int{20, 30, 0, 50})
+}
+
 func createSelectProbCase(data []int, t *testing.T) {
 	var length = len(data)
 	ret := make([]int, length)

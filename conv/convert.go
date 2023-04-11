@@ -15,6 +15,13 @@ func StrToInt(str string) int {
 	return n
 }
 
+// StrToInt32 covert string to int32
+func StrToInt32(str string) int32 {
+	n, err := strconv.ParseInt(str, 10, 32)
+	errs.Throw(err)
+	return int32(n)
+}
+
 // StrToInt64 covert string to int64
 func StrToInt64(str string) int64 {
 	n, err := strconv.ParseInt(str, 10, 64)
@@ -30,6 +37,47 @@ func IntToStr(src int) string {
 // Int64ToStr covert int64 to string
 func Int64ToStr(src int64) string {
 	return strconv.FormatInt(src, 10)
+}
+
+// Int32ToStr covert int32 to string
+func Int32ToStr(src int32) string {
+	return strconv.FormatInt(int64(src), 10)
+}
+
+// StrToUint covert string to uint
+func StrToUint(str string) uint {
+	n, err := strconv.ParseUint(str, 10, 64)
+	errs.Throw(err)
+	return uint(n)
+}
+
+// StrToUint64 covert string to uint64
+func StrToUint64(str string) uint64 {
+	n, err := strconv.ParseUint(str, 10, 64)
+	errs.Throw(err)
+	return n
+}
+
+// StrToUint32 covert string to uint32
+func StrToUint32(str string) uint32 {
+	n, err := strconv.ParseInt(str, 10, 32)
+	errs.Throw(err)
+	return uint32(n)
+}
+
+// UintToStr covert uint to string
+func UintToStr(src uint) string {
+	return strconv.FormatUint(uint64(src), 10)
+}
+
+// Uint64ToStr covert uint64 to string
+func Uint64ToStr(src int64) string {
+	return strconv.FormatInt(src, 10)
+}
+
+// Uint32ToStr covert uint32 to string
+func Uint32ToStr(src int32) string {
+	return strconv.FormatInt(int64(src), 10)
 }
 
 // JoinBigInt join a slice of big.Int to a string with ","
@@ -55,8 +103,8 @@ func Int64ToHex(src int64) string {
 }
 
 // HexToInt64 convert hex string to int64
-func HexToInt64(src string) uint64 {
-	id, err := strconv.ParseUint(src, 16, 64)
+func HexToInt64(src string) int64 {
+	id, err := strconv.ParseInt(src, 16, 64)
 	errs.Throw(err)
 	return id
 }
@@ -79,8 +127,8 @@ func IntsToStr(is []int64) []string {
 		return nil
 	}
 	var ss = make([]string, len(is))
-	for _, i := range is {
-		ss = append(ss, strconv.FormatInt(i, 10))
+	for i, v := range is {
+		ss[i] = strconv.FormatInt(v, 10)
 	}
 	return ss
 }

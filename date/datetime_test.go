@@ -3,6 +3,7 @@ package date_test
 import (
 	"fmt"
 	"github.com/hankmor/gotools/date"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -78,4 +79,104 @@ func TestFmt1(t *testing.T) {
 	println(h)
 	println(m)
 	println(s)
+}
+
+func TestStartOfMonth(t *testing.T) {
+	type args struct {
+		t time.Time
+	}
+	tests := []struct {
+		name string
+		args args
+		want time.Time
+	}{
+		// Add test cases.
+		{name: "start-of-month-day", args: args{createTime(2023, 2, 1, 0, 0, 0, 0)}, want: createTime(2023, 2, 1, 0, 0, 0, 0)},
+		{name: "end-of-month-day", args: args{createTime(2023, 2, 28, 23, 59, 59, 1e9-1)}, want: createTime(2023, 2, 1, 0, 0, 0, 0)},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := date.StartOfMonth(tt.args.t); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("StartOfMonth() = %v, want %v", got, tt.want)
+			} else {
+				fmt.Println(got)
+			}
+		})
+	}
+}
+
+func TestEndOfMonth(t *testing.T) {
+	type args struct {
+		t time.Time
+	}
+	tests := []struct {
+		name string
+		args args
+		want time.Time
+	}{
+		// Add test cases.
+		{name: "start-of-month-day", args: args{createTime(2023, 2, 1, 0, 0, 0, 0)}, want: createTime(2023, 2, 28, 23, 59, 59, 1e9-1)},
+		{name: "end-of-month-day", args: args{createTime(2023, 2, 28, 23, 59, 59, 1e9-1)}, want: createTime(2023, 2, 28, 23, 59, 59, 1e9-1)},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := date.EndOfMonth(tt.args.t); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("EndOfMonth() = %v, want %v", got, tt.want)
+			} else {
+				fmt.Println(got)
+			}
+		})
+	}
+}
+
+func TestStartOfYear(t *testing.T) {
+	type args struct {
+		t time.Time
+	}
+	tests := []struct {
+		name string
+		args args
+		want time.Time
+	}{
+		// Add test cases.
+		{name: "start-of-month-day", args: args{createTime(2023, 2, 1, 0, 0, 0, 0)}, want: createTime(2023, 1, 1, 0, 0, 0, 0)},
+		{name: "end-of-month-day", args: args{createTime(2023, 2, 28, 23, 59, 59, 1e9-1)}, want: createTime(2023, 1, 1, 0, 0, 0, 0)},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := date.StartOfYear(tt.args.t); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("StartOfYear() = %v, want %v", got, tt.want)
+			} else {
+				fmt.Println(got)
+			}
+		})
+	}
+}
+
+func TestEndOfYear(t *testing.T) {
+	type args struct {
+		t time.Time
+	}
+	tests := []struct {
+		name string
+		args args
+		want time.Time
+	}{
+		// Add test cases.
+		{name: "start-of-month-day", args: args{createTime(2023, 2, 1, 0, 0, 0, 0)}, want: createTime(2023, 12, 31, 23, 59, 59, 1e9-1)},
+		{name: "end-of-month-day", args: args{createTime(2023, 2, 28, 23, 59, 59, 1e9-1)}, want: createTime(2023, 12, 31, 23, 59, 59, 1e9-1)},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := date.EndOfYear(tt.args.t); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("EndOfYear() = %v, want %v", got, tt.want)
+			} else {
+				fmt.Println(got)
+			}
+		})
+	}
+}
+
+func createTime(y, m, d, h, min, s, ns int) time.Time {
+	return time.Date(y, time.Month(m), d, h, min, s, ns, time.Local)
 }

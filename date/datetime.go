@@ -155,3 +155,19 @@ func StartTime(t time.Time) time.Time {
 func EndTime(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 0, time.Local)
 }
+
+func StartOfMonth(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location())
+}
+
+func EndOfMonth(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month()+1, 1, 0, 0, 0, -1, t.Location())
+}
+
+func StartOfYear(t time.Time) time.Time {
+	return time.Date(t.Year(), 1, 1, 0, 0, 0, 0, t.Location())
+}
+
+func EndOfYear(t time.Time) time.Time {
+	return time.Date(t.Year()+1, 1, 1, 0, 0, 0, -1, t.Location())
+}

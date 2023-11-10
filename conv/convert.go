@@ -71,13 +71,13 @@ func UintToStr(src uint) string {
 }
 
 // Uint64ToStr covert uint64 to string
-func Uint64ToStr(src int64) string {
-	return strconv.FormatInt(src, 10)
+func Uint64ToStr(src uint64) string {
+	return strconv.FormatUint(src, 10)
 }
 
 // Uint32ToStr covert uint32 to string
-func Uint32ToStr(src int32) string {
-	return strconv.FormatInt(int64(src), 10)
+func Uint32ToStr(src uint32) string {
+	return strconv.FormatUint(uint64(src), 10)
 }
 
 // JoinBigInt join a slice of big.Int to a string with ","

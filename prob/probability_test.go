@@ -75,6 +75,8 @@ func TestSelectProb0(t *testing.T) {
 }
 
 func TestSelectProb(t *testing.T) {
+	createSelectProbCase([]int{0, 1, 0, 0}, t)
+	println("====")
 	createSelectProbCase([]int{4, 1, 0, 0}, t)
 	println("====")
 	createSelectProbCase([]int{1, 1, 1, 1, 1}, t)
